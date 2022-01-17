@@ -7,6 +7,8 @@ module.exports = {
   darkMode: "media", // or 'class'
   theme: {
     screens: {
+      sz400: "400px",
+      sz500: "500px",
       sm: "640px",
       md: "768px",
       lg: "1024px",
@@ -965,5 +967,8 @@ module.exports = {
     "active",
     "disabled",
   ],
-  plugins: [require("@tailwindcss/line-clamp")],
+  plugins: [
+    require("@tailwindcss/line-clamp"),
+    require("tailwind-scrollbar-hide"),
+  ],
 };
