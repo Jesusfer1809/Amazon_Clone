@@ -33,6 +33,12 @@ export const itemsReducer = (state = initialState, action) => {
         }),
       };
       break;
+
+    case "REMOVE_ITEM":
+      return {
+        items: state.items.filter((el) => el.id !== action.payload.id),
+      };
+      break;
     default:
       return state;
   }

@@ -1,10 +1,10 @@
 import * as types from "../types";
 import axios from "axios";
 
-export const addItem = (item) => {
+export const addItem = (product) => {
   return {
     type: "ADD_ITEM",
-    payload: item,
+    payload: product,
   };
 };
 
@@ -18,6 +18,13 @@ export const riseItemQty = (product) => {
 export const reduceItemQty = (product) => {
   return {
     type: "REDUCE_QTY",
+    payload: product,
+  };
+};
+
+export const removeItem = (product) => {
+  return {
+    type: "REMOVE_ITEM",
     payload: product,
   };
 };
