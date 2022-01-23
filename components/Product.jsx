@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { StarIcon } from "@heroicons/react/solid";
 import { StarIcon as StarIconOutline } from "@heroicons/react/outline";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem } from "../store/actions/itemsAction";
 
 function Product({ product }) {
   const { id, title, description, price, category, image } = product;
+  const dispatch = useDispatch();
+  const items = useSelector((state) => state.items.items);
 
   const MAX_RATING = 5;
   const MIN_RATING = 1;
@@ -13,6 +17,14 @@ function Product({ product }) {
   );
 
   const [hasPrime] = useState(Math.random() < 0.5);
+  const [isOnBasket, setIsOnBasket] = useState(
+    items.find((el) => product.id === el.id)
+  );
+
+  const addItemToBasket = () => {
+    dispatch(addItem({ ...product, qty: 1 }));
+    setIsOnBasket(true);
+  };
 
   return (
     <div className="bg-white p-8 rounded-sm relative">
@@ -47,20 +59,29 @@ function Product({ product }) {
         <span className="text-lg">{price.toFixed(2)}</span>
       </div>
 
-      {hasPrime && (
-        <div className="text-sm flex space-x-2 items-center">
+      {hasPrime ? (
+        <div className="text-sm flex flex-row space-x-2 items-center">
           <img src="https://links.papareact.com/fdw" className="w-12" />
           <p>FREE Next-day Delivery</p>
         </div>
+      ) : (
+        <div className="w-full h-12">&nbsp;</div>
       )}
-
-      {!hasPrime && <div className="h-12">&nbsp;</div>}
 
       <div className=" mt-8 text-xs line-clamp-2">{description}</div>
 
-      <button className="mt-12 w-full py-2 font-semibold bg-gradient-to-b from-yellow-200 to-yellow-400">
-        Add to Basket
-      </button>
+      {!isOnBasket ? (
+        <button
+          className="mt-12 w-full py-2 font-semibold bg-gradient-to-b from-yellow-200 to-yellow-400"
+          onClick={addItemToBasket}
+        >
+          Add to Basket
+        </button>
+      ) : (
+        <button className="mt-12 w-full py-2 font-semibold bg-gray-500 ">
+          Added to Basket
+        </button>
+      )}
     </div>
   );
 }
