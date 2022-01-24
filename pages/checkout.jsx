@@ -5,6 +5,10 @@ import { useSession, signIn, signOut } from "next-auth/react";
 
 import Image from "next/image";
 import CartProduct from "../components/CartProduct";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+
+const stripePromise = loadStripe(process.env.stripe_public_key);
 
 function Checkout() {
   const { data: session } = useSession();
@@ -14,6 +18,53 @@ function Checkout() {
       .map((item) => item.price * item.qty)
       .reduce((counter, price) => counter + price, 0)
   );
+
+  const createCheckoutSession = async () => {
+    const stripe = await stripePromise;
+
+    //call the backend to create the checkout session...
+
+    const checkoutSession = await axios.post("/api/create-checkout-session", {
+      items: items,
+      email: session.user.email,
+    });
+
+    //redirect user to checkout
+
+    const result = await stripe.redirectToCheckout({
+      sessionId: checkoutSession.data.id,
+    });
+
+    if (result.error) alert(result.error.message);
+  };
+
+  const basketButton = () => {
+    if (session) {
+      if (items.length > 0) {
+        return (
+          <button
+            role="link"
+            className=" block mt-12 px-4 justify-self-end py-2 font-semibold bg-gradient-to-b from-yellow-200 to-yellow-400"
+            onClick={createCheckoutSession}
+          >
+            Proceed to checkout
+          </button>
+        );
+      }
+
+      return (
+        <button className=" block mt-12 px-4 justify-self-end py-2 font-semibold bg-gray-300">
+          Add items to your basket
+        </button>
+      );
+    }
+
+    return (
+      <button className=" block mt-12 px-4 justify-self-end py-2 font-semibold bg-gray-300">
+        Sign In to checkout
+      </button>
+    );
+  };
 
   return (
     <div className="bg-gray-100">
@@ -52,15 +103,7 @@ function Checkout() {
             US$ {price.toFixed(2)}
           </div>
 
-          {session ? (
-            <button className=" block mt-12 px-4 justify-self-end py-2 font-semibold bg-gradient-to-b from-yellow-200 to-yellow-400">
-              Proceed to checkout
-            </button>
-          ) : (
-            <button className=" block mt-12 px-4 justify-self-end py-2 font-semibold bg-gray-300">
-              Sign In to checkout
-            </button>
-          )}
+          {basketButton()}
         </div>
       </main>
     </div>
