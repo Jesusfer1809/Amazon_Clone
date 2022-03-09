@@ -25,7 +25,7 @@ function Product({ product }) {
     dispatch(addItem({ ...product, qty: 1 }));
     setIsOnBasket(true);
   };
-
+  //uwu
   return (
     <div className="bg-white p-8 rounded-sm relative">
       <div className="text-sm absolute top-2 right-2 italic text-gray-400">
