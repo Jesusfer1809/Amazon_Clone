@@ -1,13 +1,12 @@
 import React, { useContext, useState } from 'react'
 import Image from 'next/image'
-import { StarIcon } from '@heroicons/react/solid'
-import { StarIcon as StarIconOutline } from '@heroicons/react/outline'
 
-import { Product as ProductType } from 'types'
+import { Product as ProductI } from 'types'
 import BasketContext from 'context/Tasks/BasketContext'
+import StarsRow from './StarsRow'
 
 interface ProductProps {
-  product: ProductType
+  product: ProductI
 }
 
 function Product({ product }: ProductProps): JSX.Element {
@@ -25,30 +24,6 @@ function Product({ product }: ProductProps): JSX.Element {
     setIsOnBasket(true)
   }
 
-  const createStars = (): JSX.Element | JSX.Element[] => {
-    const fullStars = []
-    const emptyStars = []
-    const flatRating = Math.floor(product.rating.rate)
-
-    for (let i = 1; i <= flatRating; i++) {
-      fullStars.push(1)
-    }
-    for (let i = 5; i > flatRating; i--) {
-      emptyStars.push(1)
-    }
-
-    return (
-      <div className='mt-3 flex'>
-        {fullStars.map((_, i) => (
-          <StarIcon key={i} className='h-5 w-5 text-amber-500' />
-        ))}
-        {emptyStars.map((_, i) => (
-          <StarIconOutline key={i} className='h-5 w-5 text-amber-500' />
-        ))}
-      </div>
-    )
-  }
-
   return (
     <div className='bg-white p-8 rounded-sm relative shadow-sm shadow-gray-300'>
       <div className='text-sm absolute top-2 right-2 italic text-gray-400'>
@@ -63,7 +38,7 @@ function Product({ product }: ProductProps): JSX.Element {
         <p>{title}</p>
       </div>
 
-      {createStars()}
+      <StarsRow product={product} />
 
       <div className='font-semibold'>
         <span className='text-xs'>US$</span>{' '}

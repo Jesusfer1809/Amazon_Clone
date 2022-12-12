@@ -64,6 +64,10 @@ export interface AxiosData {
   data: Product[]
 }
 
+export interface AxiosStripeData {
+  id: string
+}
+
 // export interface AxiosSingleResult {
 //   status: string
 //   data: AxiosSingleData

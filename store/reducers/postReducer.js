@@ -1,11 +1,11 @@
-import * as types from "../types";
+import * as types from '../types'
 
 const initialState = {
   posts: [],
   post: {},
   loading: false,
-  error: null,
-};
+  error: null
+}
 
 export const postReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -14,10 +14,10 @@ export const postReducer = (state = initialState, action) => {
         ...state,
         posts: action.payload,
         loading: false,
-        error: null,
-      };
+        error: null
+      }
 
     default:
-      return state;
+      return state
   }
-};
+}

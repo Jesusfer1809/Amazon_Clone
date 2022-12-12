@@ -1,51 +1,64 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useContext, useEffect, useState } from 'react'
+
 import Header from '../components/Header'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
+import { NextPage } from 'next'
 
 import Image from 'next/image'
 import CartProduct from '../components/CartProduct'
-import { loadStripe } from '@stripe/stripe-js'
-import axios from 'axios'
 
-const stripePromise = loadStripe(process.env.stripe_public_key)
+import BasketContext from 'context/Tasks/BasketContext'
+import { checkout } from 'utils/checkout'
 
-function Checkout() {
+const Checkout: NextPage = () => {
   const { data: session } = useSession()
-  const items = useSelector((state) => state.items.items)
-  const price = useSelector((state) =>
-    state.items.items
-      .map((item) => item.price * item.qty)
+  const { products } = useContext(BasketContext)
+
+  const [price, setPrice] = useState(0)
+
+  useEffect(() => {
+    const NewPrice = products
+      .map((product) => product.price * product.quantity)
       .reduce((counter, price) => counter + price, 0)
-  )
+    setPrice(NewPrice)
+  }, [products])
 
-  const createCheckoutSession = async () => {
-    const stripe = await stripePromise
+  // const createCheckoutSession = async (): Promise<void> => {
+  //   try {
+  //     const stripe = await stripePromise
 
-    // call the backend to create the checkout session...
+  //     // call the backend to create the checkout session...
 
-    const checkoutSession = await axios.post('/api/create-checkout-session', {
-      items,
-      email: session.user.email
-    })
+  //     if (session === null) return
+  //     const checkoutSession = await axios.post('/api/create-checkout-session', {
+  //       products,
+  //       email: session.user?.email
+  //     })
 
-    // redirect user to checkout
+  //     // redirect user to checkout
 
-    const result = await stripe.redirectToCheckout({
-      sessionId: checkoutSession.data.id
-    })
+  //     const result = await stripe.redirectToCheckout({
+  //       sessionId: checkoutSession.data.id
+  //     })
+  //   } catch (err) {
+  //     alert(err.message)
+  //   }
+  // }
 
-    if (result.error) alert(result.error.message)
-  }
-
-  const basketButton = () => {
-    if (session) {
-      if (items.length > 0) {
+  const basketButton = (): JSX.Element | JSX.Element[] => {
+    if (session !== null) {
+      if (products.length > 0) {
         return (
           <button
             role='link'
             className=' block mt-12 px-4 justify-self-end py-2 font-semibold bg-gradient-to-b from-yellow-200 to-yellow-400'
-            onClick={createCheckoutSession}
+            onClick={() => {
+              console.log('CHECKOUT')
+              void checkout({
+                user: session.user,
+                lineItems: products
+              })
+            }}
           >
             Proceed to checkout
           </button>
@@ -73,6 +86,7 @@ function Checkout() {
       <main className=' p-5 grid grid-cols-1 lg:grid-cols-[4fr_1fr] xl:grid-cols-[5fr_1fr] gap-5 '>
         <div className='bg-white'>
           <Image
+            alt='banner'
             src='https://links.papareact.com/ikj'
             width={1020}
             height={250}
@@ -81,7 +95,7 @@ function Checkout() {
 
           <div className='px-0 py-8 flex flex-col space-y-8 bg-gray-100'>
             <div>
-              {items.length === 0 ? (
+              {products.length === 0 ? (
                 <span className='text-2xl font-semibold'>
                   Your Shopping Basket is Empty
                 </span>
@@ -90,8 +104,8 @@ function Checkout() {
               )}
             </div>
 
-            {items.map((product) => (
-              <CartProduct product={product} />
+            {products.map((product) => (
+              <CartProduct key={product.id} product={product} />
             ))}
           </div>
         </div>

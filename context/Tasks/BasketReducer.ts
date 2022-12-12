@@ -48,7 +48,7 @@ const BasketReducer = (
       return {
         ...state,
         products: state.products.map((product) => {
-          if (product.id === payload.id && product.quantity > 0) {
+          if (product.id === payload.id && product.quantity > 1) {
             return { ...payload, quantity: product.quantity - 1 }
           } else {
             return product
