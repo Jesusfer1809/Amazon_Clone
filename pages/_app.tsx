@@ -1,9 +1,8 @@
 import React from 'react'
-import { Provider } from 'react-redux'
-import { createWrapper } from 'next-redux-wrapper'
-import store from '../store/store'
+
 import { SessionProvider } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import BasketState from 'context/Tasks/BasketState'
 
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
@@ -17,15 +16,12 @@ function MyApp({
 }>): JSX.Element {
   const router = useRouter()
   return (
-    <SessionProvider session={pageProps.session}>
-      <Provider store={store}>
+    <BasketState>
+      <SessionProvider session={pageProps.session}>
         <Component key={router.asPath} {...pageProps} />
-      </Provider>
-    </SessionProvider>
+      </SessionProvider>
+    </BasketState>
   )
 }
 
-const makestore = () => store
-const wrapper = createWrapper(makestore)
-
-export default wrapper.withRedux(MyApp)
+export default MyApp

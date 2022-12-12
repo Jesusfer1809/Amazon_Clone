@@ -1,7 +1,8 @@
 import React from 'react'
 import { Product as ProductType } from 'types'
-import Product from './Product'
+
 import Image from 'next/image'
+import Product from './Product'
 
 interface ProductFeedProps {
   products: ProductType[]

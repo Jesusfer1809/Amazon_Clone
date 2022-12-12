@@ -26,6 +26,23 @@ export interface Product {
   rating: Rating
 }
 
+export interface BasketProduct extends Product {
+  hasPrime?: boolean
+  quantity: number
+}
+
+export interface BasketStateI {
+  products: BasketProduct[]
+}
+
+export interface BasketContextInterface {
+  products: BasketProduct[]
+  addProductToBasket: (product: BasketProduct) => void
+  riseItemQty: (product: BasketProduct) => void
+  reduceItemQty: (product: BasketProduct) => void
+  removeProductFromBasket: (product: BasketProduct) => void
+}
+
 export enum Category {
   Electronics = 'electronics',
   Jewelery = 'jewelery',

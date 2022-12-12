@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -9,13 +9,12 @@ import {
 } from '@heroicons/react/outline'
 
 import { signIn, signOut, useSession } from 'next-auth/react'
-import { useSelector } from 'react-redux'
 import { listTopics } from 'utils/listTopics'
-import { Product } from 'types'
+import BasketContext from 'context/Tasks/BasketContext'
 
 function Header(): JSX.Element {
   const { data: session } = useSession()
-  const items = useSelector((state) => state.items.items)
+  const { products } = useContext(BasketContext)
 
   return (
     <div className=' bg-amazon_blue text-white flex flex-col  text-xs space-y-2'>
@@ -77,7 +76,7 @@ function Header(): JSX.Element {
           <Link href='/checkout'>
             <div className='flex items-center cursor-pointer relative'>
               <div className='absolute w-5 h-5 text-xs top-1 left-4 bg-yellow-500 text-amazon_blue rounded-full flex justify-center items-center'>
-                {items.length}
+                {products.length}
               </div>
               <ShoppingCartIcon className=' w-7 h-7 sm:w-8 sm:h-8 ' />
               <span className='text-sm font-semibold hidden sz400:inline'>
