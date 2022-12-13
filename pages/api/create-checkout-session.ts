@@ -1,9 +1,18 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { BasketProduct } from 'types'
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+
+import Stripe from 'stripe'
+import { getErrorMessage } from 'utils/functions'
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+  apiVersion: '2022-11-15'
+})
+
+// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 interface Data {
-  name: string
+  id?: string
+  message?: string
 }
 
 interface BodyI {
@@ -11,17 +20,21 @@ interface BodyI {
   email: string
 }
 
-const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+const checkout = async (
+  req: NextApiRequest,
+  res: NextApiResponse<Data>
+): Promise<void> => {
   try {
     const { items, email } = req.body as BodyI
 
     const transformedItems = items.map((item) => ({
-      description: item.description,
+      // description: item.description,
       quantity: item.quantity,
       price_data: {
         currency: 'usd',
         unit_amount: item.price * 100,
         product_data: {
+          description: item.description,
           name: item.title,
           images: [item.image]
         }
@@ -43,8 +56,10 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
     res.status(200).json({ id: session.id }) // uwu
   } catch (err) {
+    const message = getErrorMessage(err)
+
     res.status(400).json({
-      message: err.message
+      message
     })
   }
 }

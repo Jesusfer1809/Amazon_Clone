@@ -2,11 +2,9 @@ import React, { useContext } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import {
-  SearchIcon,
-  ShoppingCartIcon,
-  UserIcon
-} from '@heroicons/react/outline'
+import { AiOutlineSearch } from 'react-icons/ai'
+import { HiOutlineShoppingCart } from 'react-icons/hi'
+import { BiUserCircle } from 'react-icons/bi'
 
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { listTopics } from 'utils/listTopics'
@@ -36,7 +34,7 @@ function Header(): JSX.Element {
             className='h-full  w-full rounded-l-md focus:outline-none text-amazon_blue px-4 text-base '
           />
 
-          <SearchIcon className='w-12 h-full text-amazon_blue px-3 cursor-pointer' />
+          <AiOutlineSearch className='w-12 h-full text-amazon_blue px-3 cursor-pointer' />
         </div>
 
         <div className='flex space-x-4 sz500:space-x-8 md:space-x-4 h-full'>
@@ -51,7 +49,7 @@ function Header(): JSX.Element {
                 ? `${session?.user?.name as string}`
                 : 'Identifícate'}
             </span>
-            <UserIcon className='w-7 h-7 sm:w-8 sm:h-8' />
+            <BiUserCircle className='w-7 h-7 sm:w-8 sm:h-8' />
           </div>
 
           <div
@@ -78,7 +76,7 @@ function Header(): JSX.Element {
               <div className='absolute w-5 h-5 text-xs top-1 left-4 bg-yellow-500 text-amazon_blue rounded-full flex justify-center items-center'>
                 {products.length}
               </div>
-              <ShoppingCartIcon className=' w-7 h-7 sm:w-8 sm:h-8 ' />
+              <HiOutlineShoppingCart className=' w-7 h-7 sm:w-8 sm:h-8 ' />
               <span className='text-sm font-semibold hidden sz400:inline'>
                 Carrito
               </span>
@@ -95,7 +93,7 @@ function Header(): JSX.Element {
             className='h-full  w-full rounded-l-md focus:outline-none text-amazon_blue placeholder-amazon_blue-light px-4 text-base '
           />
 
-          <SearchIcon className='w-12 h-full text-amazon_blue px-3 cursor-pointer' />
+          <AiOutlineSearch className='w-12 h-full text-amazon_blue px-3 cursor-pointer' />
         </div>
       </div>
 
