@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
@@ -147,8 +151,7 @@ module.exports = {
       'gradient-to-bl':
         'linear-gradient(to bottom left, var(--tw-gradient-stops))',
       'gradient-to-l': 'linear-gradient(to left, var(--tw-gradient-stops))',
-      'gradient-to-tl':
-        'linear-gradient(to top left, var(--tw-gradient-stops))'
+      'gradient-to-tl': 'linear-gradient(to top left, var(--tw-gradient-stops))'
     },
     backgroundOpacity: ({ theme }) => theme('opacity'),
     backgroundPosition: {
