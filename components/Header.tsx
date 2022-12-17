@@ -66,10 +66,12 @@ function Header(): JSX.Element {
             <span className='text-sm font-semibold'>Cuenta y Listas</span>
           </div>
 
-          <div className='hidden sm:flex flex-col justify-center '>
-            <span>Devoluciones</span>
-            <span className='text-sm font-semibold'>y Pedidos</span>
-          </div>
+          <Link href='/orders'>
+            <div className='hidden sm:flex flex-col justify-center cursor-pointer'>
+              <span>Devoluciones</span>
+              <span className='text-sm font-semibold'>y Pedidos</span>
+            </div>
+          </Link>
 
           <Link href='/checkout'>
             <div className='flex items-center cursor-pointer relative'>

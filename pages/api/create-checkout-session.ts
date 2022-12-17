@@ -45,12 +45,14 @@ const checkout = async (
       payment_method_types: ['card'],
       line_items: transformedItems,
       mode: 'payment',
-      success_url: `${process.env.HOST as string}/success`,
-      cancel_url: `${process.env.HOST as string}/checkout`,
 
+      cancel_url: `${process.env.HOST as string}/checkout`,
+      success_url: `${
+        process.env.HOST as string
+      }/success/{CHECKOUT_SESSION_ID}`,
       metadata: {
-        email
-        // images: JSON.stringify(products.map((item) => item.image))
+        email,
+        images: JSON.stringify(items.map((item) => item.image))
       }
     })
 

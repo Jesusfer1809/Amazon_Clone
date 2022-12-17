@@ -1,9 +1,28 @@
 import { ParsedUrlQuery } from 'querystring'
+import Stripe from 'stripe'
 
 // export interface RickMortyResults {
 //   info: Info
 //   results: Character[]
 // }
+
+export interface OrderDB {
+  _id: string
+  session_id: string
+  amount: number
+  images: string[]
+  customer: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface OrderFrontend {
+  order_id: string
+  amount: number
+  images: string[]
+  timestamp: string
+  items: Stripe.LineItem[]
+}
 
 export interface Info {
   count: number
