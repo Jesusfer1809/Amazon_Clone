@@ -2,7 +2,7 @@
 
 **The landing page of Amazon. You can add items to the shopping basket and pay for them with Stripe**
 
-**Click here to see the live demo &rarr;** [Amazon clone site](https://amazon-clone-seven-beta.vercel.app "Amazon clone site")
+**Click here to see the live demo &rarr;** [Amazon clone site](https://jesusfer1809-amazon-clone.vercel.app/ 'Amazon clone site')
 
 ![](https://i.imgur.com/Ml5YSf4.jpg)
 
