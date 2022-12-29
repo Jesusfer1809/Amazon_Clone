@@ -21,10 +21,16 @@ function StarsRow({ product }: StarsRowProps): JSX.Element {
   return (
     <div className='mt-3 flex'>
       {fullStars.map((_, i) => (
-        <AiFillStar key={i} className='h-5 w-5 text-amber-500' />
+        <AiFillStar
+          key={i}
+          className='h-5 w-5 2xl:w-6 2xl:h-6 text-amber-500'
+        />
       ))}
       {emptyStars.map((_, i) => (
-        <AiOutlineStar key={i} className='h-5 w-5 text-amber-500' />
+        <AiOutlineStar
+          key={i}
+          className='h-5 w-5 2xl:w-6 2xl:h-6 text-amber-500'
+        />
       ))}
     </div>
   )
